@@ -21,7 +21,7 @@ Master:
 # Use ClusterIP if your setup includes ingress controller
   ServiceType: LoadBalancer
 # Used to create Ingress record (should used with ServiceType: ClusterIP)
-  HostName: common-jenkins.kubeme.io
+  HostName: common-jenkins-test.kubeme.io
 # NodePort: <to set explicitly, choose port between 30000-32767
   ContainerPort: 8080
   SlaveListenerPort: 50000
@@ -39,9 +39,9 @@ Master:
        kubernetes.io/tls-acme: "true"
 
     TLS:
-       - secretName: common-jenkins.kubeme.io
+       - secretName: common-jenkins-test.kubeme.io
          hosts:
-           - common-jenkins.kubeme.io
+           - common-jenkins-test.kubeme.io
 
 Agent:
   Image: jenkinsci/jnlp-slave

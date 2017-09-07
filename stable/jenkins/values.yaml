@@ -5,23 +5,23 @@
 
 Master:
   Name: jenkins-master
-  Image: "gcr.io/kubernetes-charts-ci/jenkins-master-k8s"
-  ImageTag: "v0.7.0"
+  Image: "quay.io/coffeepac/jenkins-master"
+  ImageTag: "latest"
   ImagePullPolicy: "Always"
   Component: "jenkins-master"
   UseSecurity: true
   AdminUser: admin
-# AdminPassword: <defaults to random>
-  Cpu: "200m"
-  Memory: "256Mi"
+  AdminPassword: SuperSecret
+  Cpu: "400m"
+  Memory: "1024Mi"
 # Set min/max heap here if needed with:
-# JavaOpts: "-Xms512m -Xmx512m"
+  JavaOpts: "-Xms1024m -Xmx1024m"
   ServicePort: 8080
 # For minikube, set this to NodePort, elsewhere use LoadBalancer
 # Use ClusterIP if your setup includes ingress controller
   ServiceType: LoadBalancer
 # Used to create Ingress record (should used with ServiceType: ClusterIP)
-# HostName: jenkins.cluster.local
+  HostName: common-jenkins-test.kubeme.io
 # NodePort: <to set explicitly, choose port between 30000-32767
   ContainerPort: 8080
   SlaveListenerPort: 50000
@@ -35,13 +35,13 @@ Master:
 
   Ingress:
     Annotations:
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+       kubernetes.io/ingress.class: nginx
+       kubernetes.io/tls-acme: "true"
 
     TLS:
-      # - secretName: jenkins.cluster.local
-      #   hosts:
-      #     - jenkins.cluster.local
+       - secretName: common-jenkins-test.kubeme.io
+         hosts:
+           - common-jenkins-test.kubeme.io
 
 Agent:
   Image: jenkinsci/jnlp-slave
@@ -61,7 +61,7 @@ Persistence:
   ##
   # StorageClass:
   AccessMode: ReadWriteOnce
-  Size: 8Gi
+  Size: 80Gi
   volumes:
 #  - name: nothing
 #    emptyDir: {}
